@@ -1,0 +1,250 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --ink: #0D2A33;
+  --lagoon: #0E7686;
+  --lagoon-dark: #0A5B68;
+  --hot: #D7263D;
+  --bg: #F2F6F7;
+  --surface: #FFFFFF;
+  --muted: #557079;
+  --line: #D6E2E5;
+  --gold: #E3A400;
+  --orange: #FF7A2F;
+  --notice-bg: #FCE9D5;
+  --gold-hi: linear-gradient(180deg, #FFF6D8 0%, #F3D58A 38%, #D4A64A 62%, #F6DE9A 82%, #B8862F 100%);
+  --gold-lo: linear-gradient(180deg, #C99A3E 0%, #A9782A 48%, #7E5717 100%);
+  --gold-btn: linear-gradient(180deg, #F6DE9A 0%, #D9AC4D 65%, #C99A3E 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.text-gold-hi {
+  background: var(--gold-hi);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gold-lo {
+  background: var(--gold-lo);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-gold {
+  background: var(--gold-btn);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(184, 134, 47, 0.35);
+}
+
+.btn-gold:hover {
+  filter: brightness(1.04);
+}
+
+/* Leaflet price tag marker */
+.ctag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.ctag:hover {
+  transform: scale(1.08);
+  z-index: 1000 !important;
+}
+
+.ctag-hot {
+  background: var(--hot);
+}
+
+.ctag-normal {
+  background: var(--lagoon);
+}
+
+.ctag-apt {
+  background: #0D2A33;
+}
+
+/* Bong bóng số căn theo phân khu khi zoom xa */
+.zbubble {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 42px;
+  padding: 5px 9px 4px;
+  border-radius: 14px;
+  background: var(--lagoon);
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.32);
+  cursor: pointer;
+  line-height: 1.05;
+  white-space: nowrap;
+  transition: transform 0.15s ease;
+}
+
+.zbubble b {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.zbubble span {
+  font-size: 10.5px;
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+.zbubble-hot {
+  background: var(--hot);
+}
+
+.zbubble:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.ctag-food {
+  background: #FFFFFF;
+  color: var(--ink);
+  border-color: var(--lagoon);
+}
+
+/* Custom subtle scrollbars for horizontal zone chips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.45; }
+  50% { transform: translateY(-10px) scale(1.05); opacity: 0.7; }
+}
+
+.hero-orb {
+  animation: floatOrb 6s ease-in-out infinite;
+}
+
+/* Nhãn phòng & nút tầng trên mô hình 3D (HouseViewport) */
+.h3d-labels > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.h3d-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #cfc8bb;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.h3d-area span {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #6f6a62;
+}
+
+.h3d-area b {
+  font-size: 12px;
+  font-weight: 800;
+  color: #1d2024;
+}
+
+.h3d-flname {
+  pointer-events: auto;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: #f6c844;
+  color: #1f1d1a;
+  font-weight: 800;
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.h3d-flname:hover,
+.h3d-flname[aria-current="true"] {
+  background: #f0b512;
+  outline: 2px solid #1f1d1a;
+}
+
+/* Hiệu ứng vào cho drawer / toast (thay cho class animate-in của
+   tailwindcss-animate vốn chưa được cài) */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anim-slide-in-right {
+  animation: slideInRight 0.22s ease-out;
+}
+
+.anim-fade-up {
+  animation: fadeUp 0.25s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-slide-in-right,
+  .anim-fade-up,
+  .hero-orb {
+    animation: none;
+  }
+}
