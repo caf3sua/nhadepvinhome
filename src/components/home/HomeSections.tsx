@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Check, Phone, MessageCircle, ArrowRight } from "lucide-react";
 import { FEATURED_PROJECTS, PROJECT_DETAILS } from "@/data/projects";
 import { UNITS } from "@/data/units";
@@ -51,51 +52,56 @@ export function BigButtons() {
 
 export function ProjectsGrid() {
   return (
-    <section id="du-an" className="wrap pt-14 space-y-5 scroll-mt-16">
+    <section id="du-an" className="wrap pt-14 space-y-6 scroll-mt-16">
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <h2 className="font-display font-extrabold text-[28px] sm:text-[36px] uppercase text-gold-lo">
             DỰ ÁN ĐANG PHÂN PHỐI
           </h2>
           <p className="text-[14.5px] text-[#557079]">
-            Quỹ căn chuyển nhượng thấp tầng &amp; chung cư nổi bật tại Ocean City
+            Chọn dự án để xem quỹ căn: thấp tầng Ocean Park 2 &amp; 3, căn hộ mới và chung cư chuyển nhượng
           </p>
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
         {FEATURED_PROJECTS.map((proj) => {
-          const badgeCls =
-            proj.badgeVariant === "hot"
-              ? "bg-[#D7263D] text-white"
-              : proj.badgeVariant === "gold"
-              ? "bg-[#E3A400] text-[#0D2A33]"
-              : "bg-[#E2F2F4] text-[#0E7686]";
-
           return (
             <Link
               key={proj.id}
               href={proj.href}
-              className="bg-white rounded-[14px] border border-[#D6E2E5] p-4 hover:border-[#0E7686] hover:shadow-md transition-all flex flex-col justify-between gap-3 group"
+              className="bg-white rounded-[18px] border border-[#D6E2E5]/80 hover:border-[#0E7686] hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group shadow-xs"
             >
-              <div className="space-y-2">
-                <span
-                  className={`inline-block px-2.5 py-0.5 rounded-[7px] text-[10.5px] font-extrabold tracking-wide ${badgeCls}`}
-                >
-                  {proj.badge}
-                </span>
-                <h3 className="font-display font-extrabold text-[17px] text-[#0D2A33] group-hover:text-[#0E7686]">
-                  {proj.name}
-                </h3>
-                <div className="text-[12.5px] text-[#557079]">
-                  📍 {proj.location}
+              {proj.image && (
+                <div className="relative w-full aspect-[16/9.2] overflow-hidden bg-slate-100">
+                  <Image
+                    src={proj.image}
+                    alt={proj.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-                <p className="text-[13px] text-[#0D2A33]/85 leading-snug">
-                  {proj.summary}
-                </p>
-              </div>
-              <div className="text-[13px] font-bold text-[#0E7686] pt-2 border-t border-[#E6EEF0]">
-                {proj.ctaLabel}
+              )}
+              <div className="p-5 flex-1 flex flex-col justify-between gap-4">
+                <div className="space-y-2">
+                  <h3 className="font-display font-extrabold text-[16px] sm:text-[17px] xl:text-[18px] uppercase text-[#0D2A33] group-hover:text-[#0E7686] transition-colors leading-snug">
+                    {proj.name}
+                  </h3>
+                  <div className="flex items-start gap-2 text-[13px] sm:text-[13.5px] text-[#557079]">
+                    <span className="shrink-0 text-[14px]">📍</span>
+                    <span>{proj.location}</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-[13px] sm:text-[13.5px] text-[#557079] leading-relaxed">
+                    <span className="shrink-0 text-[14px]">🏡</span>
+                    <span>{proj.summary}</span>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <span className="text-[13.5px] font-bold text-[#0E7686] group-hover:text-[#0A5B68] transition-colors inline-flex items-center gap-1">
+                    {proj.ctaLabel}
+                  </span>
+                </div>
               </div>
             </Link>
           );
@@ -197,33 +203,29 @@ export function IntroSection() {
 export function LifeStrip() {
   const items = [
     {
-      title: "Grand World Hà Nội",
-      desc: "Phố Venice & K-Town sôi động 24/7",
-      gradient: "from-[#0E7686] to-[#0D2A33]",
-      emoji: "🎡",
+      title: "Grand World – phố Venice về đêm",
+      image: "/images/life/grand-world-venice.jpg",
+      href: "/ocean-park-3",
     },
     {
-      title: "Biển hồ tạo sóng Wave Park",
-      desc: "Tổ hợp biển nhân tạo lớn hàng đầu khu vực",
-      gradient: "from-[#0284C7] to-[#0D2A33]",
-      emoji: "🌊",
+      title: "Show thực cảnh tại Grand World",
+      image: "/images/life/show-thuc-canh.jpg",
+      href: "/ocean-park-3",
     },
     {
-      title: "Vịnh biển Paradise Bay",
-      desc: "Bể bơi bốn mùa & công viên nước ngoài trời",
-      gradient: "from-[#0D9488] to-[#0D2A33]",
-      emoji: "🏖️",
+      title: "Biển hồ nước mặn",
+      image: "/images/life/bien-ho-nuoc-man.jpg",
+      href: "/ocean-park-2",
     },
     {
-      title: "Hệ sinh thái Vinschool - Vinmec",
-      desc: "Trường học liên cấp, bệnh viện & Vincom Mega Mall",
-      gradient: "from-[#B8862F] to-[#0D2A33]",
-      emoji: "🏫",
+      title: "Bãi biển cát trắng ngay trong khu đô thị",
+      image: "/images/life/bai-bien-cat-trang.jpg",
+      href: "/ocean-park-2",
     },
   ];
 
   return (
-    <section className="wrap pt-14 space-y-4">
+    <section id="song-o-ocean-park" className="wrap pt-14 space-y-4 scroll-mt-16">
       <div>
         <h2 className="font-display font-extrabold text-[26px] sm:text-[34px] uppercase text-gold-lo">
           SỐNG Ở OCEAN PARK 2 · 3
@@ -233,20 +235,29 @@ export function LifeStrip() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         {items.map((item) => (
-          <div
+          <Link
             key={item.title}
-            className={`relative h-[170px] rounded-[14px] overflow-hidden bg-gradient-to-br ${item.gradient} p-4 flex flex-col justify-between text-white shadow-sm`}
+            href={item.href}
+            className="relative aspect-[16/10.5] sm:aspect-[16/10] rounded-[16px] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 group block"
           >
-            <span className="text-[32px]">{item.emoji}</span>
-            <div>
-              <div className="font-display font-bold text-[15px] leading-snug">
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 320px"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            {/* Dark gradient at bottom for high legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
+            {/* Overlay Text */}
+            <div className="absolute bottom-0 inset-x-0 p-3 sm:p-3.5 z-10 pointer-events-none">
+              <h3 className="font-bold text-white text-[13px] sm:text-[14.5px] leading-snug drop-shadow-md">
                 {item.title}
-              </div>
-              <div className="text-[12px] text-white/80 mt-0.5">{item.desc}</div>
+              </h3>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

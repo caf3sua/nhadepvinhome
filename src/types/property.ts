@@ -80,13 +80,14 @@ export interface Zone {
 
 export interface ProjectHighlight {
   id: string;
-  badge: string;
-  badgeVariant: "hot" | "lagoon" | "gold";
+  badge?: string;
+  badgeVariant?: "hot" | "lagoon" | "gold";
   name: string;
   location: string;
   summary: string;
   href: string;
   ctaLabel: string;
+  image?: string;
 }
 
 export interface DesignTemplate {

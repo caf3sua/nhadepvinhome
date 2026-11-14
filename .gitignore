@@ -8,3 +8,7 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .playwright-mcp/
+
+.vercel
+.env*
+!.env.example
