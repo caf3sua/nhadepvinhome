@@ -63,7 +63,7 @@ export const FEATURED_PROJECTS: ProjectHighlight[] = [
   {
     id: "p-trinity-square",
     badge: "CHUYỂN NHƯỢNG",
-    badgeVariant: "lagoon",
+    badgeVariant: "green",
     name: "MASTERI TRINITY SQUARE",
     location: "Vinhomes Ocean Park 2, Hưng Yên",
     summary: "13 căn chuyển nhượng giá tốt",
@@ -74,7 +74,7 @@ export const FEATURED_PROJECTS: ProjectHighlight[] = [
   {
     id: "p-springbay",
     badge: "CHUYỂN NHƯỢNG",
-    badgeVariant: "lagoon",
+    badgeVariant: "green",
     name: "LUMIÈRE SPRINGBAY",
     location: "Vinhomes Ocean Park 2, Hưng Yên",
     summary: "8 căn chuyển nhượng giá tốt",
@@ -85,7 +85,7 @@ export const FEATURED_PROJECTS: ProjectHighlight[] = [
   {
     id: "p-era-landmark",
     badge: "CHUYỂN NHƯỢNG",
-    badgeVariant: "lagoon",
+    badgeVariant: "green",
     name: "MASTERI ERA LANDMARK",
     location: "Vinhomes Ocean Park 3, Hưng Yên",
     summary: "3 căn chuyển nhượng giá tốt",

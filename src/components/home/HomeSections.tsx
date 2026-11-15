@@ -81,6 +81,21 @@ export function ProjectsGrid() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+                  {proj.badge && (
+                    <span
+                      className={`absolute top-3 left-3 z-10 px-3 py-1 rounded-[8px] text-[11px] sm:text-[12px] font-extrabold uppercase tracking-wider text-white shadow-sm ${
+                        proj.badgeVariant === "hot"
+                          ? "bg-[#DC5C2B]"
+                          : proj.badgeVariant === "gold"
+                          ? "bg-[#CA8007]"
+                          : proj.badgeVariant === "green"
+                          ? "bg-[#2E7D4E]"
+                          : "bg-[#00769D]"
+                      }`}
+                    >
+                      {proj.badge}
+                    </span>
+                  )}
                 </div>
               )}
               <div className="p-5 flex-1 flex flex-col justify-between gap-4">

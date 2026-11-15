@@ -81,7 +81,7 @@ export interface Zone {
 export interface ProjectHighlight {
   id: string;
   badge?: string;
-  badgeVariant?: "hot" | "lagoon" | "gold";
+  badgeVariant?: "hot" | "lagoon" | "gold" | "green";
   name: string;
   location: string;
   summary: string;
