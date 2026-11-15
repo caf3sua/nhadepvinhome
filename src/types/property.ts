@@ -46,6 +46,8 @@ export interface Unit {
   images: string[];
   lat: number;
   lng: number;
+  /** Vị trí trên ảnh mặt bằng [x, y] (0–1). Bỏ trống → tự xếp quanh tâm phân khu. */
+  plan?: [number, number];
   updatedAt: string;
 }
 

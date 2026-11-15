@@ -248,3 +248,132 @@ body {
     animation: none;
   }
 }
+
+/* ===== Bản đồ quỹ căn trên ảnh tổng mặt bằng (PlanMapClient) ===== */
+.plan-map {
+  background: #EEF2EE;
+  cursor: grab;
+}
+.plan-map.leaflet-drag-target { cursor: grabbing; }
+.pwrap, .pmwrap { background: none; border: 0; }
+
+/* Nhãn giá có đuôi nhọn chỉ xuống vị trí căn */
+.ppin {
+  --pc: var(--lagoon);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 7px));
+  white-space: nowrap;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: var(--pc);
+  color: #fff;
+  text-align: center;
+  line-height: 1.15;
+  box-shadow: 0 2px 6px rgba(6, 30, 36, 0.3);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition: transform 0.12s ease;
+}
+.ppin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-left: -6px;
+  border: 6px solid transparent;
+  border-bottom: 0;
+  border-top-color: var(--pc);
+}
+.ppin:hover { transform: translate(-50%, calc(-100% - 7px)) scale(1.06); }
+.ppin.hot { --pc: var(--hot); }
+.ppin.apt { --pc: #6E45C9; }
+.ppin.sel { outline: 2px solid var(--ink); outline-offset: 1px; }
+.ppin b { display: block; font-size: 12.5px; font-weight: 800; }
+.ppin b.bp { color: #FFE27A; }
+.ppin b em {
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 800;
+  background: #FFE27A;
+  color: #3A2A00;
+  border-radius: 3px;
+  padding: 0 3px;
+  margin-left: 4px;
+  vertical-align: 1px;
+}
+.ppin small { display: block; font-size: 10px; font-weight: 500; opacity: 0.92; }
+
+/* Ghim tròn số căn theo phân khu / dự án chung cư khi zoom xa */
+.ppin.pzone {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+}
+.ppin.pzone:hover { transform: translate(-50%, -50%) scale(1.1); }
+.ppin.pzone::after { display: none; }
+.ppin.pzone i { font-style: normal; font-size: 13px; font-weight: 800; }
+
+/* Zoom xa: chỉ ghim phân khu; zoom gần: nhãn giá từng căn */
+.plan-map:not(.pfar) .pzwrap,
+.plan-map:not(.pfar) .pafar,
+.plan-map.pfar .puwrap,
+.plan-map.pfar .pawrap { display: none; }
+
+/* Ga metro */
+.pmetro {
+  position: absolute;
+  transform: translate(-17px, -17px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pmetro i {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1E9E5A;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  font-style: normal;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
+}
+.pmetro i::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 3px solid #1E9E5A;
+  animation: pmetroPulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+.pmetro b {
+  background: #1E9E5A;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 9px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.plan-map.pfar .pmetro b { font-size: 11px; padding: 2px 7px; }
+@keyframes pmetroPulse {
+  from { transform: scale(0.8); opacity: 0.9; }
+  to { transform: scale(1.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pmetro i::after { animation: none; opacity: 0; }
+}
