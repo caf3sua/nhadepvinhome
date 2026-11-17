@@ -16,7 +16,7 @@ const PlanMapClient = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[clamp(440px,72vh,760px)] rounded-[16px] bg-[#E5EEF0] border border-[#D6E2E5] flex items-center justify-center text-[#557079] font-semibold">
+      <div className="w-full h-[clamp(440px,72vh,760px)] sm:h-auto sm:aspect-[5000/3147] sm:max-h-[82vh] rounded-[16px] bg-[#E5EEF0] border border-[#D6E2E5] flex items-center justify-center text-[#557079] font-semibold">
         Đang tải bản đồ quỹ căn...
       </div>
     ),

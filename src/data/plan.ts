@@ -13,35 +13,34 @@ import { ProjectSlug } from "@/types/property";
  */
 export type PlanPoint = [number, number];
 
-// LƯU Ý: ảnh hiện tại tải tạm từ ocean23.vn để phát triển —
-// phải thay bằng ảnh mặt bằng của mình trước khi đưa lên production.
+// Ảnh "MB Tổng_VHOP2-3" đã xoay ngang (hướng Bắc bên trái), thu về 5000px, ~2MB.
 export const PLAN_IMAGE = {
-  src: "/images/map/mat-bang-ocp23.jpg",
-  width: 2119,
-  height: 1400,
+  src: "/images/map/mb-tong-vhop23.jpg",
+  width: 5000,
+  height: 3147,
 };
 
 /** Tâm từng phân khu thấp tầng (khớp `id` trong `data/zones.ts`). */
 export const ZONE_ANCHORS: Record<string, PlanPoint> = {
   // Ocean Park 2 (nửa phải ảnh)
-  "kinh-do": [0.7581, 0.5064],
-  "sao-bien": [0.7672, 0.5896],
-  "san-ho": [0.755, 0.386],
-  "co-xanh": [0.755, 0.7099],
-  "hai-au": [0.8528, 0.6728],
-  "dao-dua": [0.9201, 0.6265],
-  "ngoc-trai": [0.8284, 0.2241],
-  "cha-la": [0.9079, 0.2704],
+  "kinh-do": [0.758, 0.5302],
+  "sao-bien": [0.7674, 0.62],
+  "san-ho": [0.7548, 0.4003],
+  "co-xanh": [0.7549, 0.7498],
+  "hai-au": [0.8556, 0.7096],
+  "dao-dua": [0.925, 0.6595],
+  "ngoc-trai": [0.8304, 0.2255],
+  "cha-la": [0.9123, 0.2752],
   // Ocean Park 3 (nửa trái ảnh)
-  "vinh-xanh": [0.3615, 0.6275],
-  "dao-ngoc": [0.3882, 0.7813],
-  "anh-duong": [0.4203, 0.567],
-  "vinh-tay": [0.4657, 0.7693],
-  "thoi-dai": [0.5406, 0.6639],
-  "vinh-thien-duong": [0.5192, 0.579],
-  "pho-bien": [0.4871, 0.4252],
-  "hai-dang": [0.1667, 0.3944],
-  "hung-dong": [0.435, 0.7207],
+  "vinh-xanh": [0.3494, 0.6618],
+  "dao-ngoc": [0.377, 0.8276],
+  "anh-duong": [0.41, 0.5963],
+  "vinh-tay": [0.4568, 0.8145],
+  "thoi-dai": [0.534, 0.7006],
+  "vinh-thien-duong": [0.5119, 0.6091],
+  "pho-bien": [0.4788, 0.4432],
+  "hai-dang": [0.1486, 0.4107],
+  "hung-dong": [0.4252, 0.7622],
 };
 
 /** Ghim dự án chung cư (khớp `projectKey` trong `data/apartments.ts`). */
@@ -49,23 +48,24 @@ export const APARTMENT_ANCHORS: Record<
   string,
   { short: string; project: ProjectSlug; point: PlanPoint }
 > = {
-  "masteri-trinity": { short: "Trinity", project: "ocp2", point: [0.781, 0.6213] },
-  "lumiere-springbay": { short: "Springbay", project: "ocp2", point: [0.6355, 0.3383] },
-  "masteri-grand-coast": { short: "Grand Coast", project: "ocp2", point: [0.693, 0.2382] },
-  "the-parkland": { short: "Parkland", project: "ocp2", point: [0.9037, 0.3881] },
-  "masteri-era": { short: "Era Landmark", project: "ocp3", point: [0.5262, 0.6996] },
+  "masteri-trinity": { short: "Trinity", project: "ocp2", point: [0.7816, 0.6541] },
+  "lumiere-springbay": { short: "Springbay", project: "ocp2", point: [0.6316, 0.3491] },
+  "masteri-grand-coast": { short: "Grand Coast", project: "ocp2", point: [0.6909, 0.241] },
+  "the-parkland": { short: "Parkland", project: "ocp2", point: [0.908, 0.4022] },
+  "masteri-era": { short: "Era Landmark", project: "ocp3", point: [0.5191, 0.7392] },
 };
 
 /** Ga tuyến metro 8B theo quy hoạch (tham khảo, vị trí có thể thay đổi). */
 export const METRO_STATIONS: { name: string; point: PlanPoint }[] = [
-  { name: "Ga 8B.04 (phía Nam OCP2)", point: [0.6765, 0.965] },
-  { name: "Ga Vincom Ocean City", point: [0.622, 0.5351] },
-  { name: "Ga Vinhomes Ocean Park 3", point: [0.497, 0.2113] },
+  // Ga thật nằm ngay ngoài mép dưới ảnh → đặt sát mép dưới cho vẫn nhìn thấy
+  { name: "Ga 8B.04 (phía Nam OCP2)", point: [0.6741, 0.955] },
+  { name: "Ga Vincom Ocean City", point: [0.6178, 0.5615] },
+  { name: "Ga Vinhomes Ocean Park 3", point: [0.4889, 0.2124] },
 ];
 
 /** Khung nhìn khi lọc theo dự án: [x1, y1, x2, y2]. */
 export const PLAN_VIEWS: Record<"all" | ProjectSlug, [number, number, number, number]> = {
   all: [0, 0, 1, 1],
-  ocp2: [0.6096, 0.0162, 0.9949, 0.9303],
-  ocp3: [0.0173, 0.1555, 0.6269, 0.8955],
+  ocp2: [0.6048, 0.0016, 1, 0.9871],
+  ocp3: [0, 0.1532, 0.623, 0.9504],
 };

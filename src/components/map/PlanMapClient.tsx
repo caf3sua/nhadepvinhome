@@ -60,8 +60,9 @@ function layoutUnits(units: Unit[]): Map<string, PlanPoint> {
     if (u.plan) pos.set(u.id, u.plan);
     else byZone.set(u.zoneId, [...(byZone.get(u.zoneId) ?? []), u]);
   });
-  const DX = 84 / W; // khoảng cách cột/hàng tính bằng px ảnh ở zoom 0
-  const DY = 42 / H;
+  // Khoảng cách cột/hàng theo tỉ lệ bề ngang ảnh → không phụ thuộc độ phân giải ảnh
+  const DX = 0.04;
+  const DY = (0.02 * W) / H;
   byZone.forEach((list, zoneId) => {
     const anchor = ZONE_ANCHORS[zoneId];
     if (!anchor) return;
@@ -109,7 +110,9 @@ export function PlanMapClient({ units, apartments, view, focus }: PlanMapClientP
     const map = mapRef.current;
     if (!map) return;
     const b = boxBounds(PLAN_VIEWS[v]);
-    map.setView(b.getCenter(), map.getBoundsZoom(b, false), { animate });
+    // Không thu nhỏ quá mức "ảnh phủ kín khung" → không lộ khoảng trống
+    const cover = map.getBoundsZoom(boxBounds(PLAN_VIEWS.all), true);
+    map.setView(b.getCenter(), Math.max(map.getBoundsZoom(b, false), cover), { animate });
   };
 
   const flyTo = (point: PlanPoint, extra = 0.5) => {
@@ -130,11 +133,13 @@ export function PlanMapClient({ units, apartments, view, focus }: PlanMapClientP
       crs: L.CRS.Simple,
       zoomControl: false,
       attributionControl: false,
-      zoomSnap: 0.25,
+      // Không làm tròn mức zoom → ảnh vừa khít khung, không bị cắt dư
+      zoomSnap: 0,
       zoomDelta: 0.5,
       wheelPxPerZoomLevel: 100,
-      minZoom: -4,
-      maxZoom: 2.5,
+      // zoom 0 = đúng 1 px ảnh; cho phóng tối đa gấp đôi ảnh gốc
+      minZoom: -6,
+      maxZoom: 1,
       bounceAtZoomLimits: false,
     });
     mapRef.current = map;
@@ -144,7 +149,7 @@ export function PlanMapClient({ units, apartments, view, focus }: PlanMapClientP
       interactive: false,
       alt: "Tổng mặt bằng Vinhomes Ocean Park 2 và 3",
     }).addTo(map);
-    map.setMaxBounds(all.pad(0.05));
+    map.setMaxBounds(all);
     map.options.maxBoundsViscosity = 1;
 
     map.createPane("metro").style.zIndex = "650";
@@ -152,14 +157,14 @@ export function PlanMapClient({ units, apartments, view, focus }: PlanMapClientP
 
     // Ngưỡng "zoom xa": nhỏ hơn mức này chỉ hiện bong bóng số căn theo phân khu
     const syncZoom = () => {
-      map.setMinZoom(map.getBoundsZoom(all, false) - 0.25);
+      // Mức thu nhỏ tối đa = ảnh vừa phủ kín khung (giống ocean23), không còn viền trống
+      map.setMinZoom(map.getBoundsZoom(all, true));
       farRef.current = map.getBoundsZoom(boxBounds(PLAN_VIEWS.ocp3), false) + 0.9;
       el.classList.toggle("pfar", map.getZoom() < farRef.current);
     };
     map.on("zoomend", syncZoom);
 
-    const b = boxBounds(PLAN_VIEWS.all);
-    map.setView(b.getCenter(), map.getBoundsZoom(b, false), { animate: false });
+    map.setView(all.getCenter(), map.getBoundsZoom(all, true), { animate: false });
     syncZoom();
 
     // Khung bản đồ đổi kích thước (điện thoại, toàn màn hình) → đo lại
@@ -327,8 +332,10 @@ export function PlanMapClient({ units, apartments, view, focus }: PlanMapClientP
       className={
         isFullscreen
           ? "fixed inset-0 z-[45] isolate bg-[#EEF2EE]"
-          : "relative isolate w-full h-[clamp(440px,72vh,760px)] rounded-[16px] overflow-hidden border border-[#D6E2E5] shadow-md bg-[#EEF2EE]"
+          : // Điện thoại: khung cao cố định (kéo ngang để xem); màn rộng: khung theo tỉ lệ ảnh
+            "relative isolate w-full h-[clamp(440px,72vh,760px)] sm:h-auto sm:aspect-(--plan-ar) sm:max-h-[82vh] rounded-[16px] overflow-hidden border border-[#D6E2E5] shadow-md bg-[#EEF2EE]"
       }
+      style={{ "--plan-ar": `${W} / ${H}` } as React.CSSProperties}
     >
       <div
         ref={containerRef}
